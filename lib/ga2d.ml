@@ -38,5 +38,12 @@ module MultiVector = struct
     e12 = a.e12 +. b.e12;
   }
 
+  let scale a scalar = {
+    s = a.s *. scalar;
+    e1 = a.e1 *. scalar;
+    e2 = a.e2 *. scalar;
+    e12 = a.e12 *. scalar;
+  }
+
 end
 
