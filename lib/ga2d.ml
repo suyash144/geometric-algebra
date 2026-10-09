@@ -1,5 +1,7 @@
 
 
+
+
 module MultiVector = struct
   type t = {
     s : float;
@@ -44,6 +46,22 @@ module MultiVector = struct
     e2 = a.e2 *. scalar;
     e12 = a.e12 *. scalar;
   }
+
+  let reverse a = {
+    s = a.s;
+    e1 = a.e1;
+    e2 = a.e2;
+    e12 = -1. *. a.e12;
+  }
+
+  type basis = S | E1 | E2 | E12
+
+  let grade_project a = function
+  | S -> {a with e1 = 0.; e2 = 0.; e12 = 0.}
+  | E1 -> {a with s = 0.; e2 = 0.; e12 = 0.}
+  | E2 -> {a with e1 = 0.; s = 0.; e12 = 0.}
+  | E12 -> {a with e1 = 0.; e2 = 0.; s = 0.}
+
 
 end
 
