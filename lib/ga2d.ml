@@ -10,7 +10,7 @@ module MultiVector = struct
     e12 : float ;
   }
 
-  type basis = S | G1 | G2
+  type grade = G0 | G1 | G2
 
   let make s e1 e2 e12 = {s ; e1; e2; e12}
 
@@ -61,8 +61,10 @@ module MultiVector = struct
     e12 = -. a.e12;
   }
 
+  let zero = make 0. 0. 0. 0.
+
   let grade_project a = function
-  | S -> {a with e1 = 0.; e2 = 0.; e12 = 0.}
+  | G0 -> {a with e1 = 0.; e2 = 0.; e12 = 0.}
   | G1 -> {a with s = 0.; e12 = 0.}
   | G2 -> {a with e1 = 0.; e2 = 0.; s = 0.}
 
@@ -74,7 +76,7 @@ module MultiVector = struct
     -. a.e2 *. b.e1 +. a.e12 *. b.s;
   }
 
-  let inner a b = grade_project (a * b) S
+  let inner a b = grade_project (a * b) G0
 
   let to_string a =
     let terms =
