@@ -20,7 +20,10 @@ let () =
   assert (e1 + e2 = make 0. 1. 1. 0.);
   assert (scale (make 1. 2. 3. 4.) 2. = make 2. 4. 6. 8.);
   assert (u * (v * w) = (u * v) * w);
-  assert (u * (v + w) = u * v + u * w)
+  assert (u * (v + w) = u * v + u * w);
+  assert (inverse e1 = e1);
+  assert (inverse e12 = scale e12 (-1.));
+  assert (inverse (make 2. 0. 0. 0.) = make 0.5 0. 0. 0.)
 
 let () =
   assert (to_string (make 1. 2. 0. 4.) = "1 + 2e1 + 4e12");
