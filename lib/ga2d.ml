@@ -78,6 +78,17 @@ module MultiVector = struct
 
   let inner a b = grade_project (a * b) G0
 
+  let int_of_grade = function 
+    | G0 -> 0
+    | G1 -> 1
+    | G2 -> 2
+
+  let grade_of_int = function
+    | 0 -> G0
+    | 1 -> G1
+    | 2 -> G2
+    | n -> invalid_arg (Printf.sprintf "grade_of_int: %d" n)
+
   let to_string a =
     let terms =
       [ (a.s, ""); (a.e1, "e1"); (a.e2, "e2"); (a.e12, "e12") ]
