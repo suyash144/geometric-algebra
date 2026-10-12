@@ -78,6 +78,21 @@ module MultiVector = struct
 
   let scalar_dot a b = grade_project (a * b) G0
 
+  let norm a = sqrt(((reverse a) * a).s)
+
+  let grade_invol a = {
+    s = a.s;
+    e1 = -. a.e1;
+    e2 = -. a.e2;
+    e12 = a.e12;
+  }
+
+  let clifford_conj a = grade_invol (reverse a)
+
+  let inverse a =
+    let conj = clifford_conj a in 
+    scale conj (1. /. (a * conj).s)
+
   let int_of_grade = function 
     | G0 -> 0
     | G1 -> 1

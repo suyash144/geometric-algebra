@@ -21,6 +21,7 @@ let () =
   assert (scale (make 1. 2. 3. 4.) 2. = make 2. 4. 6. 8.);
   assert (u * (v * w) = (u * v) * w);
   assert (u * (v + w) = u * v + u * w)
+
 let () =
   assert (to_string (make 1. 2. 0. 4.) = "1 + 2e1 + 4e12");
   assert (to_string (make 0. (-1.) 3. 0.) = "-1e1 + 3e2");
