@@ -50,6 +50,10 @@ module MultiVector = struct
     e12 = a.e12 *. scalar;
   }
 
+  let neg a = scale a (-1.)
+
+  let ( - ) a b = a + neg b
+
   let reverse a = {
     s = a.s;
     e1 = a.e1;
