@@ -76,6 +76,22 @@ module MultiVector = struct
 
   let inner a b = grade_project (a * b) S
 
+  let to_string a =
+    let terms =
+      [ (a.s, ""); (a.e1, "e1"); (a.e2, "e2"); (a.e12, "e12") ]
+      |> List.filter (fun (c, _) -> c <> 0.)
+    in
+    match terms with
+    | [] -> "0"
+    | (c0, n0) :: rest ->
+      let term c n = Printf.sprintf "%g%s" (Float.abs c) n in
+      let first = (if c0 < 0. then "-" else "") ^ term c0 n0 in
+      let others =
+        List.map (fun (c, n) -> (if c < 0. then " - " else " + ") ^ term c n) rest
+      in
+      String.concat "" (first :: others)
+
+  let pp fmt a = Format.pp_print_string fmt (to_string a)
 
 end
 
