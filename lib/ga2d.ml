@@ -76,7 +76,7 @@ module MultiVector = struct
     -. a.e2 *. b.e1 +. a.e12 *. b.s;
   }
 
-  let inner a b = grade_project (a * b) G0
+  let scalar_dot a b = grade_project (a * b) G0
 
   let int_of_grade = function 
     | G0 -> 0
@@ -88,6 +88,16 @@ module MultiVector = struct
     | 1 -> G1
     | 2 -> G2
     | n -> invalid_arg (Printf.sprintf "grade_of_int: %d" n)
+
+  let grades = [G0; G1; G2]
+
+  let left_contract a b = 
+    List.concat_map (fun r -> List.map (fun s -> (r, s)) grades) grades
+    |> List.filter (fun (r, s) -> int_of_grade r <= int_of_grade s)
+    |> List.map (fun (r, s) ->
+      let out = grade_of_int Stdlib.(int_of_grade s - int_of_grade r) in 
+      grade_project (grade_project a r * grade_project b s) out)
+    |> List.fold_left (+) zero
 
   let to_string a =
     let terms =
