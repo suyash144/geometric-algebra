@@ -9,6 +9,9 @@ module MultiVector = struct
     e2 : float ;
     e12 : float ;
   }
+
+  type basis = S | E1 | E2 | E12
+
   let make s e1 e2 e12 = {s ; e1; e2; e12}
 
   let ( * ) a b = {
@@ -54,13 +57,21 @@ module MultiVector = struct
     e12 = -1. *. a.e12;
   }
 
-  type basis = S | E1 | E2 | E12
-
   let grade_project a = function
   | S -> {a with e1 = 0.; e2 = 0.; e12 = 0.}
   | E1 -> {a with s = 0.; e2 = 0.; e12 = 0.}
   | E2 -> {a with e1 = 0.; s = 0.; e12 = 0.}
   | E12 -> {a with e1 = 0.; e2 = 0.; s = 0.}
+
+  let wedge a b = {
+    s = a.s *. b.s;
+    e1 = a.s *. b.e1 +. a.e1 *. b.s;
+    e2 = a.s *. b.e2 +. a.e2 *. b.s;
+    e12 = a.s *. b.e12 +. a.e1 *. b.e2 
+    -. a.e2 *. b.e1 +. a.e12 *. b.s;
+  }
+
+  let inner a b = grade_project (a * b) S
 
 
 end
